@@ -1,0 +1,14 @@
+# Documentation
+include man/auto-discover.1
+include CONTRIBUTING.md
+include README.md
+include version.txt
+recursive-include docs *.rst *.py
+recursive-include docs/_themes *
+recursive-include docs/_static *
+
+# Remove CFFI files
+global-exclude __pycache__/*
+
+# Remove git directories
+global-exclude .git
