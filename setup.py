@@ -22,12 +22,15 @@ requirements = [
     "redis>=4.0.0",
     "openpyxl>=3.0.0",
     "jinja2>=3.0.0",
-    "Twisted>=23.10.0",
     "paramiko>=3.4.0",
-    "snimpy>=0.8.9",
-    "libnmap>=0.7.4",
-    "mysqlclient>=2.0.0",
+    "PyMySQL>=1.0.0",
+    "asyncio>=3.4.3",
 ]
+
+# Define optional requirements
+optional_requirements = {
+    "snmp": ["snimpy>=0.8.9"],
+}
 
 # Define development requirements
 dev_requirements = [
@@ -75,6 +78,8 @@ setup(
     install_requires=requirements,
     extras_require={
         "dev": dev_requirements,
+        "snmp": optional_requirements["snmp"],
+        "all": [req for reqs in optional_requirements.values() for req in reqs],
     },
     entry_points={
         "console_scripts": [

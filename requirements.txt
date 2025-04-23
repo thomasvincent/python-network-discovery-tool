@@ -1,10 +1,11 @@
 setuptools~=68.2.0
 python-nmap~=0.7.1
-redis
-openpyxl
-jinja2
-Twisted==23.10.0
+redis>=4.0.0
+openpyxl>=3.0.0
+jinja2>=3.0.0
 paramiko==3.4.0
-snimpy==0.8.9
-libnmap==0.7.4
-MySQL-python==1.2.5
+PyMySQL>=1.0.0
+asyncio>=3.4.3
+
+# Optional dependencies
+# snimpy==0.8.9  # Uncomment to enable SNMP support
