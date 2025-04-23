@@ -1,73 +1,48 @@
-#
-# Makefile for the 'auto-discover' network discovery and analysis project 
-#
+.PHONY: build run test dev lint clean help
 
-# This Makefile provides targets for streamlining development tasks related to 
-# the 'auto-discover' project, including code linting, testing, documentation 
-# generation, and virtual environment management.
-
-# Author and Contact
-AUTHOR := Thomas Vincent <thomas.vincent@gmail.com>
-
-# Version (optional)
-VERSION := 0.1
-
-# Copyright notice
-COPYRIGHT := 2012-2024 Thomas Vincent
-
-# License 
-LICENSE := MIT 
-
-
-# Variables
-PROJECT_NAME := auto-discover
-VENV_NAME := $(PROJECT_NAME)-venv
-FLAKE8_EXECUTABLE := flake8
-
-# Targets
-.PHONY: clean-pyc clean-build clean-venv lint test docs help
-
+# Default target
 help:
-	@echo "Please use \`make <target>' where <target> is one of:"
-	@echo "  clean-build   to remove build artifacts"
-	@echo "  clean-pyc     to remove Python file artifacts"
-	@echo "  clean-venv    to remove the virtual environment"
-	@echo "  lint          to check style with flake8"
-	@echo "  test          to run tests"
-	@echo "  docs          to generate Sphinx HTML documentation, including API docs"
+	@echo "Network Discovery Tool Docker Makefile"
+	@echo "======================================"
+	@echo ""
+	@echo "Available targets:"
+	@echo "  build      - Build the Docker image"
+	@echo "  run        - Run the network discovery tool (use ARGS='192.168.1.0/24' to pass arguments)"
+	@echo "  test       - Run tests (use ARGS='tests/test_scanner.py' to specify tests)"
+	@echo "  dev        - Start a development shell"
+	@echo "  lint       - Run linters (flake8, black, isort, mypy)"
+	@echo "  clean      - Remove Docker containers, images, and build artifacts"
+	@echo "  help       - Show this help message"
+	@echo ""
+	@echo "Examples:"
+	@echo "  make run ARGS='192.168.1.0/24 -f csv'"
+	@echo "  make test ARGS='tests/test_scanner.py -v'"
+	@echo ""
 
-clean: clean-build clean-pyc clean-venv
+# Build the Docker image
+build:
+	docker-compose build
 
-clean-build:
-	rm -rf build/
-	rm -rf dist/
-	rm -rf *.egg-info
+# Run the network discovery tool
+run: build
+	docker-compose run --rm network-discovery $(ARGS)
 
-clean-pyc:
-	find . -name '*.pyc' -delete -o -name '*.pyo' -delete -o -name '*~' -delete -o -name '__pycache__' -delete -print0 | xargs -0 -P4 rm -f
+# Run tests
+test: build
+	docker-compose run --rm test $(ARGS)
 
-clean-venv:
-	rm -rf $(VENV_NAME)
+# Start a development shell
+dev: build
+	docker-compose run --rm dev
 
-lint:
-	$(FLAKE8_EXECUTABLE) auto-discover tests
+# Run linters
+lint: build
+	docker-compose run --rm dev bash -c "flake8 src tests && black src tests && isort src tests && mypy src tests"
 
-test:
-	python -m unittest discover
-
-docs:
-	rm -f docs/$(PROJECT_NAME).rst
-	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ auto-discover
-	$(MAKE) -C docs clean
-	$(MAKE) -C docs html
-	@echo "Documentation build complete. Open 'docs/_build/html/index.html' to view."
-
-# Development targets
-venv:
-	python3 -m venv $(VENV_NAME)
-	$(VENV_NAME)/bin/pip install -U pip
-	$(VENV_NAME)/bin/pip install -r requirements.txt
-
-venv-dev: venv
-	$(VENV_NAME)/bin/pip install -r requirements-dev.txt
+# Clean up
+clean:
+	docker-compose down --rmi local
+	rm -rf output/*.html output/*.csv output/*.xlsx output/*.json
+	rm -rf devices.json
+	rm -rf __pycache__ .pytest_cache
+	find . -name "*.pyc" -delete

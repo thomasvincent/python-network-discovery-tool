@@ -1,5 +1,6 @@
-# MkDocs specific
-site/
+# Git
+.git
+.gitignore
 
 # Python
 __pycache__/
@@ -30,18 +31,16 @@ coverage.xml
 *.cover
 
 # Docker
-.env
+Dockerfile
+docker-compose.yml
+.dockerignore
 
-# Project specific
-output/
-devices.json
-
-# IDE
+# Editor directories and files
 .idea/
 .vscode/
 *.swp
 *.swo
 
-# OS specific
-.DS_Store
-Thumbs.db
+# Project specific
+output/
+devices.json

@@ -61,18 +61,17 @@ class TestCli:
             args = parse_args(
                 [
                     "192.168.1.0/24",
-                    "-o",
-                    temp_dir,
-                    "-t",
-                    temp_dir,
+                    "-o", temp_dir,
+                    "-t", temp_dir,
                     "--no-notification",
                     "--no-repository",
+                    "--no-report"
                 ]
             )
 
             # Mock the DeviceDiscoveryService
             with patch(
-                "network_discovery.interfaces.cli.DeviceDiscoveryService"
+                "network_discovery.core.discovery.DeviceDiscoveryService"
             ) as mock_discovery_service:
                 # Mock the discover_network method
                 mock_instance = mock_discovery_service.return_value
@@ -96,18 +95,17 @@ class TestCli:
             args = parse_args(
                 [
                     "192.168.1.1",
-                    "-o",
-                    temp_dir,
-                    "-t",
-                    temp_dir,
+                    "-o", temp_dir,
+                    "-t", temp_dir,
                     "--no-notification",
                     "--no-repository",
+                    "--no-report"
                 ]
             )
 
             # Mock the DeviceDiscoveryService
             with patch(
-                "network_discovery.interfaces.cli.DeviceDiscoveryService"
+                "network_discovery.core.discovery.DeviceDiscoveryService"
             ) as mock_discovery_service:
                 # Mock the discover_device method
                 mock_instance = mock_discovery_service.return_value
@@ -127,17 +125,18 @@ class TestCli:
     def test_cli(self):
         """Test that the CLI function works."""
         with tempfile.TemporaryDirectory() as temp_dir:
-            with patch("network_discovery.interfaces.cli.asyncio.run") as mock_run:
-                with patch("network_discovery.interfaces.cli.parse_args") as mock_parse_args:
+            # First patch the parse_args function
+            with patch("network_discovery.interfaces.cli.parse_args") as mock_parse_args:
+                # Then patch asyncio.run
+                with patch("asyncio.run") as mock_run:
                     mock_parse_args.return_value = parse_args(
                         [
                             "192.168.1.0/24",
-                            "-o",
-                            temp_dir,
-                            "-t",
-                            temp_dir,
+                            "-o", temp_dir,
+                            "-t", temp_dir,
                             "--no-notification",
                             "--no-repository",
+                            "--no-report"
                         ]
                     )
 
