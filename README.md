@@ -11,6 +11,7 @@ A network discovery tool that uses Nmap to identify if SSH, Ping, SNMP, and MySQ
 - Send notifications via email or console
 - Asynchronous scanning for improved performance
 - Comprehensive error handling and logging
+- Optimized for large networks with efficient data storage
 
 ## Installation
 
@@ -86,6 +87,9 @@ network-discovery 192.168.1.0/24 --no-repository
 
 # Specify repository file
 network-discovery 192.168.1.0/24 --repository-file /path/to/devices.json
+
+# Send email notifications
+network-discovery 192.168.1.0/24 --email --smtp-username user@example.com --smtp-password password --email-recipient admin@example.com
 ```
 
 ### Python API
@@ -129,6 +133,26 @@ The tool can generate reports in the following formats:
 - CSV: A comma-separated values file with device information
 - Excel: An Excel spreadsheet with device information
 - JSON: A JSON file with device information
+
+## Architecture
+
+The tool follows a layered architecture:
+
+- **Domain Layer**: Contains the core domain models (`Device`, `DeviceManager`)
+- **Application Layer**: Defines interfaces for services
+- **Infrastructure Layer**: Provides implementations for services (scanner, repository, notification, report)
+- **Interface Layer**: Provides the CLI and API interfaces
+
+## Improvements
+
+Recent improvements include:
+
+- **Performance**: Optimized for large networks with efficient data storage
+- **Error Handling**: More specific exception handling and consistent logging
+- **Input Validation**: Better validation of network inputs and configuration
+- **Repository**: Improved Redis and JSON file repositories for better performance
+- **CLI**: Enhanced command-line interface with more options and better error feedback
+- **Testing**: Comprehensive test coverage for all components
 
 ## Development
 

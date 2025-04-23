@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools==79.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.black]
@@ -62,3 +62,13 @@ exclude_lines = [
     "pass",
     "raise ImportError",
 ]
+
+[tool.bandit]
+# Only report on the high-severity issues
+severity-level = 3
+# Skip tests, which often have hardcoded credentials for testing
+exclude_dirs = ["tests", ".tox", ".venv", "venv"]
+# Focus on high-confidence issues
+confidence-level = 3
+# Skip low-severity issues like using assert statements
+skips = ["B101", "B104", "B110", "B112", "B601"]

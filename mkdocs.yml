@@ -37,5 +37,7 @@ edit_uri: edit/main/docs/
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
+  - Development:
+    - Release Process: release-process.md
   - Deployment:
     - Docker Setup: docker-setup.md

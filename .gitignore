@@ -24,10 +24,24 @@ var/
 *.egg
 .coverage
 htmlcov/
-.tox/
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.env/
+.venv/
+env.bak/
+venv.bak/
+
+# Testing and coverage
 .pytest_cache/
+.tox/
+.coverage
+.coverage.*
 coverage.xml
 *.cover
+htmlcov/
 
 # Docker
 .env
@@ -36,7 +50,7 @@ coverage.xml
 output/
 devices.json
 
-# IDE
+# IDE specific files
 .idea/
 .vscode/
 *.swp
