@@ -338,7 +338,8 @@ class TestEnterpriseExporter:
         # Check device data
         devices = {d["deviceName"]: d for d in data["devices"]}
         
-        assert "server1.example.com" in devices
+        # Use explicit key existence check instead of substring check
+        assert "server1.example.com" in devices.keys()
         assert devices["server1.example.com"]["deviceClass"] == "/Devices/Server"
         assert devices["server1.example.com"]["manageIp"] == "192.168.1.1"
         assert devices["server1.example.com"]["snmpMonitor"] is True
@@ -353,10 +354,10 @@ class TestEnterpriseExporter:
         assert devices["server1.example.com"]["properties"]["rack"] == "A1"
         assert devices["server1.example.com"]["properties"]["power_supply"] == "redundant"
         
-        assert "router1.example.com" in devices
+        assert "router1.example.com" in devices.keys()
         assert devices["router1.example.com"]["deviceClass"] == "/Devices/Network"
         
-        assert "storage1.example.com" in devices
+        assert "storage1.example.com" in devices.keys()
         assert devices["storage1.example.com"]["deviceClass"] == "/Devices/Storage"
         
         # Offline device should not be included
