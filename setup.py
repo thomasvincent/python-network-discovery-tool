@@ -25,11 +25,14 @@ requirements = [
     "paramiko>=3.4.0",
     "PyMySQL>=1.0.0",
     "asyncio>=3.4.3",
+    "python-libnmap>=0.7.3",
+    "ijson>=3.1.4",
 ]
 
 # Define optional requirements
 optional_requirements = {
     "snmp": ["snimpy>=0.8.9"],
+    "mysql": ["mysqlclient>=2.0.0"],
 }
 
 # Define development requirements
@@ -45,10 +48,14 @@ dev_requirements = [
     "twine>=4.0.0",
 ]
 
+# Define optional dependencies
+mysql_requirements = optional_requirements["mysql"]
+snmp_requirements = optional_requirements["snmp"]
+
 setup(
     name="network-discovery",
     version=version,
-    description="A network discovery tool using Nmap to identify SSH, Ping, and SNMP on connected devices.",
+    description="A network discovery tool using Nmap to identify SSH, Ping, SNMP, and MySQL on connected devices.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Thomas Vincent",
@@ -78,7 +85,8 @@ setup(
     install_requires=requirements,
     extras_require={
         "dev": dev_requirements,
-        "snmp": optional_requirements["snmp"],
+        "mysql": mysql_requirements,
+        "snmp": snmp_requirements,
         "all": [req for reqs in optional_requirements.values() for req in reqs],
     },
     entry_points={
