@@ -190,9 +190,14 @@ class TestEmailNotificationService:
         assert "Content-Type: text/html" in message
         assert "<html>" in message
         assert "</html>" in message
-        assert "example1.com" in message
-        assert "example2.com" in message
-        assert "example3.com" in message
-        assert "192.168.1.1" in message
-        assert "192.168.1.2" in message
-        assert "192.168.1.3" in message
+        
+        # Use more specific assertions for hostname validation
+        # These patterns ensure the exact hostnames are matched
+        assert ">example1.com<" in message or "host: example1.com" in message
+        assert ">example2.com<" in message or "host: example2.com" in message
+        assert ">example3.com<" in message or "host: example3.com" in message
+        
+        # Use more specific assertions for IP validation
+        assert ">192.168.1.1<" in message or "ip: 192.168.1.1" in message
+        assert ">192.168.1.2<" in message or "ip: 192.168.1.2" in message
+        assert ">192.168.1.3<" in message or "ip: 192.168.1.3" in message
