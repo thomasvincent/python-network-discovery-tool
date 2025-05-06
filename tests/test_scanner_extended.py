@@ -37,7 +37,9 @@ class TestNmapDeviceScannerExtended:
         with patch("paramiko.SSHClient") as mock_ssh_client:
             # Mock the connect method to raise an AuthenticationException
             mock_instance = mock_ssh_client.return_value
-            mock_instance.connect.side_effect = AuthenticationException("Authentication failed")
+            mock_instance.connect.side_effect = AuthenticationException(
+                "Authentication failed"
+            )
 
             # Check SSH
             result, errors = await scanner.check_ssh(test_device)
@@ -109,7 +111,9 @@ class TestNmapDeviceScannerExtended:
         with patch("paramiko.SSHClient") as mock_ssh_client:
             # Mock the connect method to raise a ConnectionRefusedError
             mock_instance = mock_ssh_client.return_value
-            mock_instance.connect.side_effect = ConnectionRefusedError("Connection refused")
+            mock_instance.connect.side_effect = ConnectionRefusedError(
+                "Connection refused"
+            )
 
             # Check SSH
             result, errors = await scanner.check_ssh(test_device)
@@ -134,7 +138,9 @@ class TestNmapDeviceScannerExtended:
             # Mock the connect method
             mock_instance = mock_ssh_client.return_value
             # Mock the exec_command method to raise an exception
-            mock_instance.exec_command.side_effect = Exception("Command execution error")
+            mock_instance.exec_command.side_effect = Exception(
+                "Command execution error"
+            )
 
             # Check SSH
             result, errors = await scanner.check_ssh(test_device)
@@ -173,7 +179,10 @@ class TestNmapDeviceScannerExtended:
     async def test_check_mysql_authentication_error(self, scanner, device):
         """Test that MySQL authentication errors are handled."""
         # Create a fresh device for this test
-        test_device = Device(id=1, host="example.com", ip="192.168.1.1", mysql_user="user", mysql_password="pass")
+        test_device = Device(
+            id=1, host="example.com", ip="192.168.1.1",
+            mysql_user="user", mysql_password="pass"
+        )
 
         # Mock the is_port_open method to return True and empty errors list
         scanner.is_port_open = AsyncMock(return_value=(True, []))
@@ -181,8 +190,11 @@ class TestNmapDeviceScannerExtended:
         # Mock pymysql.connect
         with patch("network_discovery.infrastructure.scanner.MYSQL_AVAILABLE", True), \
              patch("pymysql.connect") as mock_connect:
-            # Mock connect to raise an OperationalError with error code 1045 (Access denied)
-            error = pymysql.err.OperationalError(1045, "Access denied")
+            # Mock connect to raise an OperationalError
+            # with error code 1045 (Access denied)
+            error = pymysql.err.OperationalError(
+                1045, "Access denied"
+            )
             mock_connect.side_effect = error
 
             # Check MySQL
@@ -198,7 +210,10 @@ class TestNmapDeviceScannerExtended:
     async def test_check_mysql_connection_error(self, scanner, device):
         """Test that MySQL connection errors are handled."""
         # Create a fresh device for this test
-        test_device = Device(id=1, host="example.com", ip="192.168.1.1", mysql_user="user", mysql_password="pass")
+        test_device = Device(
+            id=1, host="example.com", ip="192.168.1.1",
+            mysql_user="user", mysql_password="pass"
+        )
 
         # Mock the is_port_open method to return True and empty errors list
         scanner.is_port_open = AsyncMock(return_value=(True, []))
@@ -206,8 +221,11 @@ class TestNmapDeviceScannerExtended:
         # Mock pymysql.connect
         with patch("network_discovery.infrastructure.scanner.MYSQL_AVAILABLE", True), \
              patch("pymysql.connect") as mock_connect:
-            # Mock connect to raise an OperationalError with error code 2003 (Can't connect)
-            error = pymysql.err.OperationalError(2003, "Can't connect")
+            # Mock connect to raise an OperationalError
+            # with error code 2003 (Can't connect)
+            error = pymysql.err.OperationalError(
+                2003, "Can't connect"
+            )
             mock_connect.side_effect = error
 
             # Check MySQL
@@ -223,7 +241,10 @@ class TestNmapDeviceScannerExtended:
     async def test_check_mysql_database_error(self, scanner, device):
         """Test that MySQL database errors are handled."""
         # Create a fresh device for this test
-        test_device = Device(id=1, host="example.com", ip="192.168.1.1", mysql_user="user", mysql_password="pass")
+        test_device = Device(
+            id=1, host="example.com", ip="192.168.1.1",
+            mysql_user="user", mysql_password="pass"
+        )
 
         # Mock the is_port_open method to return True and empty errors list
         scanner.is_port_open = AsyncMock(return_value=(True, []))
@@ -231,8 +252,11 @@ class TestNmapDeviceScannerExtended:
         # Mock pymysql.connect
         with patch("network_discovery.infrastructure.scanner.MYSQL_AVAILABLE", True), \
              patch("pymysql.connect") as mock_connect:
-            # Mock connect to raise an OperationalError with error code 1049 (Unknown database)
-            error = pymysql.err.OperationalError(1049, "Unknown database")
+            # Mock connect to raise an OperationalError
+            # with error code 1049 (Unknown database)
+            error = pymysql.err.OperationalError(
+                1049, "Unknown database"
+            )
             mock_connect.side_effect = error
 
             # Check MySQL
@@ -248,7 +272,10 @@ class TestNmapDeviceScannerExtended:
     async def test_check_mysql_query_error(self, scanner, device):
         """Test that MySQL query errors are handled."""
         # Create a fresh device for this test
-        test_device = Device(id=1, host="example.com", ip="192.168.1.1", mysql_user="user", mysql_password="pass")
+        test_device = Device(
+            id=1, host="example.com", ip="192.168.1.1",
+            mysql_user="user", mysql_password="pass"
+        )
 
         # Mock the is_port_open method to return True and empty errors list
         scanner.is_port_open = AsyncMock(return_value=(True, []))
@@ -261,9 +288,11 @@ class TestNmapDeviceScannerExtended:
             mock_cursor = MagicMock()
             mock_connect.return_value = mock_connection
             mock_connection.cursor.return_value = mock_cursor
-            
+
             # Mock execute to raise a ProgrammingError
-            mock_cursor.execute.side_effect = pymysql.err.ProgrammingError("Query error")
+            mock_cursor.execute.side_effect = pymysql.err.ProgrammingError(
+                "Query error"
+            )
 
             # Check MySQL
             result, errors = await scanner.check_mysql(test_device)
