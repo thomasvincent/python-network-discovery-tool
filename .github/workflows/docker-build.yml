@@ -35,8 +35,8 @@ jobs:
     
     - name: Run tests in Docker
       run: |
-        docker run --rm -v ${{ github.workspace }}:/app network-discovery:test pytest -xvs tests/
+        docker run --rm -v ${{ github.workspace }}:/app --entrypoint pytest network-discovery:test -xvs tests/
     
     - name: Run linters in Docker
       run: |
-        docker run --rm -v ${{ github.workspace }}:/app network-discovery:test bash -c "pip install flake8 black isort mypy && flake8 src tests && black --check src tests && isort --check src tests && mypy src tests"
+        docker run --rm -v ${{ github.workspace }}:/app --entrypoint bash network-discovery:test -c "pip install flake8 black isort mypy && flake8 src tests && black --check src tests && isort --check src tests && mypy src tests"
