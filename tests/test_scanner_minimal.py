@@ -33,3 +33,4 @@ class TestMinimalScanner:
             assert result is True
 
         gc.collect()
+
