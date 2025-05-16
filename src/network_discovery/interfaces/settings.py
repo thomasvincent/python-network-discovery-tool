@@ -12,10 +12,10 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     """Configuration settings for the network discovery tool.
-    
+
     This class uses Pydantic to define and validate configuration settings,
     with support for environment variables and .env files.
-    
+
     Attributes:
         network: Network CIDR or single IP address to scan.
         output_dir: Directory where reports will be saved.
@@ -33,19 +33,19 @@ class Settings(BaseSettings):
         smtp_password: SMTP password for email notifications.
         email_recipient: Email address to send notifications to.
     """
-    
+
     network: str
     output_dir: Path = Field(
-        default=Path("./output"), 
+        default=Path("./output"),
         description="Directory for reports"
     )
     format: str = Field(
-        default="html", 
+        default="html",
         description="Report format",
         pattern="^(html|csv|xlsx|json)$"
     )
     template_dir: Path = Field(
-        default=Path("./templates"), 
+        default=Path("./templates"),
         description="Template directory"
     )
     verbose: bool = False

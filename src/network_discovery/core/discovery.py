@@ -8,7 +8,7 @@ to scan networks, store results, and generate reports.
 import asyncio
 import ipaddress
 import logging
-from typing import Dict, List, Optional, Union
+from typing import List, Optional
 
 from network_discovery.application.interfaces import (
     DeviceRepositoryService,
