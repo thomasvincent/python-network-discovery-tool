@@ -82,4 +82,3 @@ class TestMockedNmapScanner:
 
         assert result is True
         gc.collect()
-
