@@ -6,7 +6,8 @@ settings for the network discovery tool, using Pydantic for validation.
 
 from pathlib import Path
 
-from pydantic import BaseSettings, Field
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -41,7 +42,7 @@ class Settings(BaseSettings):
     format: str = Field(
         default="html", 
         description="Report format",
-        regex="^(html|csv|xlsx|json)$"
+        pattern="^(html|csv|xlsx|json)$"
     )
     template_dir: Path = Field(
         default=Path("./templates"), 
@@ -59,9 +60,7 @@ class Settings(BaseSettings):
     smtp_password: str = ""
     email_recipient: str = ""
 
-    class Config:
-        """Configuration for the Settings class."""
-        
-        env_file = ".env"
-        case_sensitive = False
-
+    model_config = {
+        "env_file": ".env",
+        "case_sensitive": False
+    }
