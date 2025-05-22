@@ -24,7 +24,6 @@ requirements = [
     "jinja2>=3.0.0",
     "paramiko>=3.4.0",
     "PyMySQL>=1.0.0",
-    "asyncio>=3.4.3",
     "python-libnmap>=0.7.3",
     "ijson>=3.1.4",
 ]
@@ -65,8 +64,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
@@ -77,7 +74,7 @@ setup(
     keywords="nmap portscanner network discovery sysadmin",
     package_dir={"": "src"},
     packages=find_packages(where="src"),
-    python_requires=">=3.7",
+    python_requires=">=3.9",
     install_requires=requirements,
     extras_require={
         "dev": dev_requirements,
